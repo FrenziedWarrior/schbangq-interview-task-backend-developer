@@ -1,15 +1,11 @@
 const router = require('express').Router();
-const Model = require('../models/books');
+const BookModel = require('../models/books');
 
 // POSTing data to our database
 router.post('/books', async (req, res) => {
-    const data = new Model({
-        name: req.body.name,
-        age: req.body.age
-    });
-
     try {
-        const dataToSave = await data.save();
+        let newBookModel = BookModel(req.body)
+        const dataToSave = await newBookModel.save();
         res.status(200).json(dataToSave);
     } catch (error) {
         res.status(400).json({message: error.message});
@@ -19,7 +15,7 @@ router.post('/books', async (req, res) => {
 // Retrieve all data
 router.get('/books', async (req, res) => {
     try {
-        const data = await Model.find();
+        const data = await BookModel.find({});
         res.json(data);
     } catch (error) {
         res.status(500).json({messsage: error.message});
@@ -29,7 +25,7 @@ router.get('/books', async (req, res) => {
 // Retrieve data by ID
 router.get('/books/:id', async (req, res) => {
     try {
-        const data = await Model.findById(req.params.id);
+        const data = await BookModel.findById(req.params.id);
         res.json(data);
     } catch(error) {
         res.status(500).json({message: error.message});
@@ -42,7 +38,7 @@ router.patch('/books/:id', async (req, res) => {
         const id = req.params.id;
         const updatedBody = req.body;
         const options = { new: true };
-        const result = await Model.findByIdAndUpdate(id, updatedBody, options);
+        const result = await BookModel.findByIdAndUpdate(id, updatedBody, options);
         res.send(result);
     } catch(error) {
         res.status(400).json({ message: error.message });
@@ -53,7 +49,7 @@ router.patch('/books/:id', async (req, res) => {
 router.delete('/books/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id);
+        const data = await BookModel.findByIdAndDelete(id);
         res.send(`Document with ${data} has been deleted...`);
     } catch(error) {
         res.status(400).json({ message: error.message });

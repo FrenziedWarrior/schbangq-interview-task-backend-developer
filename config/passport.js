@@ -4,8 +4,8 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var UserService = require('../models/user');
 
 var cookieExtractor = function(req) {
-    console.log(req.path);
-    console.log(req.cookies['jwt']);
+    // console.log('Path requested: ' + req.path);
+    // console.log('Cookie in request: ' + req.cookies['jwt']);
     var token = null;
     if (req && req.cookies) token = req.cookies['jwt'];
     return token;

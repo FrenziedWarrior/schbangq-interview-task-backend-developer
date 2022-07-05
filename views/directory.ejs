@@ -8,13 +8,7 @@
     />
     <meta name="description" content="" />
     <title>SchbangQ Backend Developer Task</title>
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
   <body class="d-flex flex-column h-100">
     <!-- Begin page content -->
@@ -22,33 +16,77 @@
       <div class="container">
         <h1 class="mt-5">User Profile</h1>
         <hr />
+
         <% if ( user ) { %>
         <div class="row">
           <div class="col-md-12">
             <h3>
               <%= user.firstName %> <%= user.lastName %> (#<%= user.id %>)
             </h3>
-            <p>Logged in using <%= user.source %></p>
-            <p><%= user.email %></p>
+            <p>Logged in using <b><%= user.source %></b> (<em><%= user.email %></em>)</p>
             <p>Last visted on <%= user.lastVisited %></p>
-            <p><a href="/auth/logout">Logout</a></p>
+            <p><a href="/auth/logout" class="btn btn-sm btn-danger">Logout</a></p>
           </div>
         </div>
         <% } else { %>
-        <h1>User not found</h1>
+          <h1>User not found</h1>
         <% } %>
+
+        <h3>Form to add a new book will hit the POST API route mentioned in the assignment specifications</h3>
+        <div class="col-6">
+          <form action="/api/books" method="POST">
+            <div class="mb-3">
+            </div>
+            <div class="mb-3">
+              <label for="textbox__title" class="form-label">Title</label>
+              <input class="form-control" id="textbox__title" name="title">
+            </div>
+            <div class="mb-3">
+              <label for="textbox__author" class="form-label">Author</label>
+              <input class="form-control" id="textbox__author" name="author">
+            </div>
+            <div class="mb-3">
+              <label for="textbox__author" class="form-label">Date of publication</label>
+              <input class="form-control" id="textbox__dop" name="dateOfPublication">
+            </div>
+            <div class="mb-3">
+              <label for="textbox__author" class="form-label">Price</label>
+              <input class="form-control" id="textbox__price" name="price">
+            </div>
+            <div class="mb-3">
+              <label for="textbox__author" class="form-label">Chapters</label>
+              <input class="form-control" id="textbox__chapters" name="chapters" aria-describedby="chaptersHelp">
+              <div id="chaptersHelp" class="form-text">Separate individual chapters with semi-colons</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add new book</button>
+          </form>
+        </div>
+
+        <h3 class="mt-3">Table data is retrieved by hitting the GET API route mentioned in the assignment specifications</h3>
+        <table class="mt-3 table table-bordered table-striped">
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Chapters</th>
+            <th>Date of Publication</th>
+          </tr>
+
+          <% for(var i=0; i < books.length; i++) { %>
+            <tr>
+              <td><%= books[i].title %></td>
+              <td><%= books[i].author %></td>
+              <td><%= books[i].price.$numberDecimal %></td>
+              <td><%= books[i].chapters %></td>
+              <td><%= books[i].dateOfPublication %></td>
+            </tr>
+         <% } %>
+
+        </table>
       </div>
     </main>
 
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
   </body>
 </html>

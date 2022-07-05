@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 const port = process.env.PORT;
 const mongoString = process.env.DATABASE_URL;
@@ -87,7 +88,14 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 app.use('/api', passport.authenticate('jwt', {session: false}), bookRoutes);
 
 app.get("/directory", passport.authenticate('jwt', {session: false}), (req, res) => {
-    res.render("directory.ejs", { user: req.user });
+    let responseHandle = res;
+    axios.get('http://localhost:3000/api/books', {
+        headers: {
+            Cookie: "jwt=" + req.cookies['jwt']
+        }
+    }).then(res => {
+        responseHandle.render("directory.ejs", { user: req.user, books: res.data });
+    });
 });
 
 app.get("/auth/logout", (req, res) => {
