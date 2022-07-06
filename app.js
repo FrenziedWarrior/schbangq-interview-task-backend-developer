@@ -84,7 +84,6 @@ app.get('/auth/google/callback', passport.authenticate('google', {
         }), {
             httpOnly: true
         });
-        console.log(res.cookie);
         return res.redirect("/directory");
 });
 
@@ -97,7 +96,7 @@ app.get("/directory", passport.authenticate('jwt', {session: false}), (req, res)
             Cookie: "jwt=" + req.cookies['jwt']
         }
     }).then(res => {
-        responseHandle.render("directory.ejs", { user: req.user, books: res.data });
+        responseHandle.render("directory.ejs", { user: req.user, books: res.data, token: req.cookies['jwt'] });
     });
 });
 

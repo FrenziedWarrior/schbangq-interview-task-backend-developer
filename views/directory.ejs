@@ -25,6 +25,7 @@
             </h3>
             <p>Logged in using <b><%= user.source %></b> (<em><%= user.email %></em>)</p>
             <p>Last visted on <%= user.lastVisited %></p>
+            <p>JSON Web Token to test the API stored in cookie (use Postman if required) <br/> <%= token %></p>
             <p><a href="/auth/logout" class="btn btn-sm btn-danger">Logout</a></p>
           </div>
         </div>
@@ -47,7 +48,7 @@
             </div>
             <div class="mb-3">
               <label for="textbox__author" class="form-label">Date of publication</label>
-              <input class="form-control" id="textbox__dop" name="dateOfPublication">
+              <input type='date' class="form-control" id="textbox__dop" name="dateOfPublication">
             </div>
             <div class="mb-3">
               <label for="textbox__author" class="form-label">Price</label>
