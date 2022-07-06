@@ -10,7 +10,10 @@ const MongoStore = require('connect-mongo');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-const port = process.env.PORT;
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
 const mongoString = process.env.DATABASE_URL;
 
 mongoose.connect(mongoString);
@@ -89,7 +92,7 @@ app.use('/api', passport.authenticate('jwt', {session: false}), bookRoutes);
 
 app.get("/directory", passport.authenticate('jwt', {session: false}), (req, res) => {
     let responseHandle = res;
-    axios.get('http://localhost:3000/api/books', {
+    axios.get(process.env.BASE_APP_URL + '/api/books', {
         headers: {
             Cookie: "jwt=" + req.cookies['jwt']
         }
